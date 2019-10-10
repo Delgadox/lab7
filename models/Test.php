@@ -57,10 +57,6 @@ class Test extends \yii\db\ActiveRecord
     public function getArray()
     {
         $array = $this::find()->asArray()->all();
-        foreach ($array as $arr)
-        {
-            echo "<a> ".$arr['id'].". ". $arr['Name']. " - " . $arr['Description']. "</a>";
-
-        }
+        return $array;
     }
 }

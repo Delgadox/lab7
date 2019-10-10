@@ -64,8 +64,13 @@ class SiteController extends Controller
     {
         $model = new Test;
 //        $model->getArray();
-        print_r($model->getArray());
-        return $this->render('index');
+        $a = $model->getArray();
+        return $this->render('index', ['a' => $a]);
+    }
+
+    public function actionTest()
+    {
+        return $this->render('test');
     }
 
     /**
