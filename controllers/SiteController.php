@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\Test;
+use app\models\Questions;
+use app\models\Answers;
 use app\models\ContactForm;
 
 class SiteController extends Controller
@@ -70,7 +72,13 @@ class SiteController extends Controller
 
     public function actionTest()
     {
-        return $this->render('test');
+        $questions = Questions::find()->where(['test_id' => $_GET['test']])->asArray()->all();
+        $answers = array();
+        foreach ($questions as $question){
+            $a = Answers::find()->where(['question_id' => $question['id']])->asArray()->all();
+            $answers[]=$a;
+        }
+        return $this->render('test', ['questions' => $questions, 'answers' => $answers]);
     }
 
     /**

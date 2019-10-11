@@ -113,3 +113,39 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.test{
+    width: 400px;
+}
+
+.question{
+    width: 400px;
+    height: 100px;
+    background-color: white;
+    border: 2px solid black;
+    margin-bottom: 10px;
+}
+
+.TestUnClick{
+    width: 400px;
+    height: 50px;
+    margin-bottom: 5px;
+    background-color: white;
+    border: 2px solid black;
+}
+
+.TestRight{
+    width: 400px;
+    height: 50px;
+    margin-bottom: 5px;
+    background-color: green;
+    border: 2px solid black;
+}
+
+.TestWrong{
+    width: 400px;
+    height: 50px;
+    margin-bottom: 5px;
+    background-color: red;
+    border: 2px solid black;
+}

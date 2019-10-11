@@ -14,7 +14,7 @@ $this->title = 'My Yii Application';
             <?php
                 foreach ($a as $arr)
                 {
-                echo "<a href=". Url::to(['site/test', 'test' => $arr['id']])."> ".$arr['id'].". ". $arr['Name']. " - " . $arr['Description']. "</a> <br>";
+                echo "<a href=". Url::to(['site/test', 'test' => $arr['id'], 'Question' => '0'])."> ".$arr['id'].". ". $arr['Name']. " - " . $arr['Description']. "</a> <br>";
                 }
             ?>
         </div>
