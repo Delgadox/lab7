@@ -9,11 +9,9 @@ use Yii;
  *
  * @property int $id
  * @property string $Answer
- * @property int $question_id
+ * @property int $questions_id
  *
- * @property Questions $question
- * @property UserAnswers[] $userAnswers
- * @property User[] $users
+ * @property Questions $questions
  */
 class Answers extends \yii\db\ActiveRecord
 {
@@ -31,10 +29,10 @@ class Answers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Answer'], 'string'],
-            [['question_id'], 'required'],
-            [['question_id'], 'integer'],
-            [['question_id'], 'exist', 'skipOnError' => true, 'targetClass' => Questions::className(), 'targetAttribute' => ['question_id' => 'id']],
+            [['questions_id'], 'required'],
+            [['questions_id'], 'integer'],
+            [['Answer'], 'string', 'max' => 255],
+            [['questions_id'], 'exist', 'skipOnError' => true, 'targetClass' => Questions::className(), 'targetAttribute' => ['questions_id' => 'id']],
         ];
     }
 
@@ -46,31 +44,15 @@ class Answers extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'Answer' => 'Answer',
-            'question_id' => 'Question ID',
+            'questions_id' => 'Questions ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getQuestion()
+    public function getQuestions()
     {
-        return $this->hasOne(Questions::className(), ['id' => 'question_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUserAnswers()
-    {
-        return $this->hasMany(UserAnswers::className(), ['Answers_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUsers()
-    {
-        return $this->hasMany(User::className(), ['id' => 'User_id'])->viaTable('user_answers', ['Answers_id' => 'id']);
+        return $this->hasOne(Questions::className(), ['id' => 'questions_id']);
     }
 }

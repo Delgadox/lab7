@@ -9,10 +9,12 @@ use Yii;
  *
  * @property int $id
  * @property string $Question
+ * @property string $Answer
  * @property int $test_id
  *
  * @property Answers[] $answers
  * @property Test $test
+ * @property UserAnswers[] $userAnswers
  */
 class Questions extends \yii\db\ActiveRecord
 {
@@ -30,9 +32,9 @@ class Questions extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['Question'], 'string'],
             [['test_id'], 'required'],
             [['test_id'], 'integer'],
+            [['Question', 'Answer'], 'string', 'max' => 255],
             [['test_id'], 'exist', 'skipOnError' => true, 'targetClass' => Test::className(), 'targetAttribute' => ['test_id' => 'id']],
         ];
     }
@@ -45,6 +47,7 @@ class Questions extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'Question' => 'Question',
+            'Answer' => 'Answer',
             'test_id' => 'Test ID',
         ];
     }
@@ -54,7 +57,7 @@ class Questions extends \yii\db\ActiveRecord
      */
     public function getAnswers()
     {
-        return $this->hasMany(Answers::className(), ['question_id' => 'id']);
+        return $this->hasMany(Answers::className(), ['questions_id' => 'id']);
     }
 
     /**
@@ -63,5 +66,13 @@ class Questions extends \yii\db\ActiveRecord
     public function getTest()
     {
         return $this->hasOne(Test::className(), ['id' => 'test_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserAnswers()
+    {
+        return $this->hasMany(UserAnswers::className(), ['questions_id' => 'id']);
     }
 }

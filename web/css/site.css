@@ -131,14 +131,21 @@ a.desc:after {
     height: 50px;
     margin-bottom: 5px;
     background-color: white;
-    border: 2px solid black;
+    border: 1px solid black;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+.TestUnClick:hover{
+    background-color: lightgray;
 }
 
 .TestRight{
     width: 400px;
     height: 50px;
     margin-bottom: 5px;
-    background-color: green;
+    background-color: lightgreen;
     border: 2px solid black;
 }
 
@@ -146,6 +153,6 @@ a.desc:after {
     width: 400px;
     height: 50px;
     margin-bottom: 5px;
-    background-color: red;
+    background-color: lightpink;
     border: 2px solid black;
 }

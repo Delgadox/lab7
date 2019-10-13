@@ -8,7 +8,7 @@ use yii\db\Migration;
  *
  * - `{{%Questions}}`
  */
-class m191009_111026_create_Answers_table extends Migration
+class m191013_113217_create_Answers_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -17,22 +17,22 @@ class m191009_111026_create_Answers_table extends Migration
     {
         $this->createTable('{{%Answers}}', [
             'id' => $this->primaryKey(),
-            'Answer' => $this->text(),
-            'question_id' => $this->integer()->notNull(),
+            'Answer' => $this->string(255),
+            'questions_id' => $this->integer()->notNull(),
         ]);
 
-        // creates index for column `question_id`
+        // creates index for column `questions_id`
         $this->createIndex(
-            '{{%idx-Answers-question_id}}',
+            '{{%idx-Answers-questions_id}}',
             '{{%Answers}}',
-            'question_id'
+            'questions_id'
         );
 
         // add foreign key for table `{{%Questions}}`
         $this->addForeignKey(
-            '{{%fk-Answers-question_id}}',
+            '{{%fk-Answers-questions_id}}',
             '{{%Answers}}',
-            'question_id',
+            'questions_id',
             '{{%Questions}}',
             'id',
             'CASCADE'
@@ -46,13 +46,13 @@ class m191009_111026_create_Answers_table extends Migration
     {
         // drops foreign key for table `{{%Questions}}`
         $this->dropForeignKey(
-            '{{%fk-Answers-question_id}}',
+            '{{%fk-Answers-questions_id}}',
             '{{%Answers}}'
         );
 
-        // drops index for column `question_id`
+        // drops index for column `questions_id`
         $this->dropIndex(
-            '{{%idx-Answers-question_id}}',
+            '{{%idx-Answers-questions_id}}',
             '{{%Answers}}'
         );
 

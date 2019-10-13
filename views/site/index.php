@@ -12,10 +12,13 @@ $this->title = 'My Yii Application';
 
         <div class="row">
             <?php
+            if ($a == null) {
+                echo 'В базе нету тестов!';
+            }else{
                 foreach ($a as $arr)
                 {
                 echo "<a href=". Url::to(['site/test', 'test' => $arr['id'], 'Question' => '0'])."> ".$arr['id'].". ". $arr['Name']. " - " . $arr['Description']. "</a> <br>";
-                }
+                }}
             ?>
         </div>
 

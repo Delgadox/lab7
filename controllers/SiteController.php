@@ -72,10 +72,13 @@ class SiteController extends Controller
 
     public function actionTest()
     {
+        if ( YII::$app->request->isAjax ){
+            return true;
+        }
         $questions = Questions::find()->where(['test_id' => $_GET['test']])->asArray()->all();
         $answers = array();
         foreach ($questions as $question){
-            $a = Answers::find()->where(['question_id' => $question['id']])->asArray()->all();
+            $a = Answers::find()->where(['questions_id' => $question['id']])->asArray()->all();
             $answers[]=$a;
         }
         return $this->render('test', ['questions' => $questions, 'answers' => $answers]);

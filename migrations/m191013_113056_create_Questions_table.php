@@ -6,9 +6,9 @@ use yii\db\Migration;
  * Handles the creation of table `{{%Questions}}`.
  * Has foreign keys to the tables:
  *
- * - `{{%test}}`
+ * - `{{%Test}}`
  */
-class m191009_110732_create_Questions_table extends Migration
+class m191013_113056_create_Questions_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -17,7 +17,8 @@ class m191009_110732_create_Questions_table extends Migration
     {
         $this->createTable('{{%Questions}}', [
             'id' => $this->primaryKey(),
-            'Question' => $this->text(),
+            'Question' => $this->string(255),
+            'Answer' => $this->string(255),
             'test_id' => $this->integer()->notNull(),
         ]);
 
@@ -28,12 +29,12 @@ class m191009_110732_create_Questions_table extends Migration
             'test_id'
         );
 
-        // add foreign key for table `{{%test}}`
+        // add foreign key for table `{{%Test}}`
         $this->addForeignKey(
             '{{%fk-Questions-test_id}}',
             '{{%Questions}}',
             'test_id',
-            '{{%test}}',
+            '{{%Test}}',
             'id',
             'CASCADE'
         );
@@ -44,7 +45,7 @@ class m191009_110732_create_Questions_table extends Migration
      */
     public function safeDown()
     {
-        // drops foreign key for table `{{%test}}`
+        // drops foreign key for table `{{%Test}}`
         $this->dropForeignKey(
             '{{%fk-Questions-test_id}}',
             '{{%Questions}}'
