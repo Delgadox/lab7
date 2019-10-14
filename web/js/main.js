@@ -1,12 +1,23 @@
-function CheckIfRight($a, $b) {
+function CheckIfRight($a,$b) {
     $.ajax({
         url: 'http://lab7/web/site/test',
-        data:{answer: $a, question: $b},
+        data:{ans: $a, que: $b},
         type: 'POST',
-        success: function {
-            alert("Hewwo");
+        success: function(ans,que,data){
+                    if (data == true){
+                        alert(data);
+                    }else{
+                        console.log(ans);
+                        console.log(que);
+                        console.log(data);
+                        // alert("YOU PICK A WRONG HOUSE FOOL! *You were hit by a bat*")
+                    };
+            // if ($a == $c[$b]['answer']){
+            // }else {
+            //     alert(">OwO<")
+            // }
         },
-        error: function{
+        error: function no (){
             alert("SOMETHING WENT WRONG!!!")
         }
     });
