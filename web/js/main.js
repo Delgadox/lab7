@@ -3,12 +3,12 @@ function CheckIfRight($a,$b) {
         url: 'http://lab7/web/site/test',
         data:{ans: $a, que: $b},
         type: 'POST',
-        success: function(ans,que,data){
-                    if (data == true){
+        success: function(data){
+                    if (data==true){
                         alert(data);
                     }else{
-                        console.log(ans);
-                        console.log(que);
+                        // console.log(ans);
+                        // console.log(que);
                         console.log(data);
                         // alert("YOU PICK A WRONG HOUSE FOOL! *You were hit by a bat*")
                     };
