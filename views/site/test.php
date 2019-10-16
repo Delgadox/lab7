@@ -38,7 +38,7 @@ $this->title = 'Test';
         echo '</pre>';
         foreach ($a as $answer) {
 
-            echo '<div id="Test' . $answer['id'] . '" onclick="CheckIfRight('. $answer['Answer'] .','.$_GET['Question'].')" class="TestUnClick">' . $answer['Answer'] . '</div>';
+            echo '<div id="Test' . $answer['id'] . '" onclick="CheckIfRight('. $answer['id'] .','.$_GET['Question'].')" class="TestUnClick">' . $answer['Answer'] . '</div>';
         }
         echo '<br><a href="index">Go back</a></div>';
         if (($_GET['Question']) < (count($questions)-1)) {

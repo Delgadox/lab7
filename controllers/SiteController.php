@@ -83,15 +83,15 @@ class SiteController extends Controller
             $answers[]=$a;
         }
         if (YII::$app->request->isAjax){
-            $que2 = Questions::find()->where(['test_id' => $_GET['test']] & ['id' => $_POST['que']])->asArray()->one();
-            if ($_POST['ans'] == $que2['Answer']){
+            $que2 = Answers::find()->where(['id' => $_POST['ans']])->asArray()->one();
+            if ($que2['Correct'] == 1){
                 \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 $c = true;
-                return $c;
+                return [$c,$_POST['ans']];
             }else{
                 \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 $c = false;
-                return $c;
+                return [$c,$_POST['ans']];
             }
             };
 
