@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -12,6 +13,8 @@ use app\models\Test;
 use app\models\Questions;
 use app\models\Answers;
 use app\models\ContactForm;
+use app\models\Users;
+use app\models\UserAnswers;
 
 class SiteController extends Controller
 {
@@ -70,22 +73,40 @@ class SiteController extends Controller
         return $this->render('index', ['a' => $a]);
     }
 
+    public function actionUsers()
+    {
+//        $model = new Users;
+//        $model->getArray();
+        $a = Users::find()->asArray()->all();
+        return $this->render('users', ['a' => $a]);
+    }
+
+    public function actionChangeuser(){
+        $session = Yii::$app->session;
+        $session->open();
+        $_SESSION['user'] = $_GET['User'];
+        return $this->redirect(['site/test', 'test' => $_GET['test'], 'Question' => $_GET['Question']]);
+    }
+
     public function actionTest()
     {
         $questions = Questions::find()->where(['test_id' => $_GET['test']])->asArray()->all();
-//        echo '<pre>';
-//        print_r($questions);
-//        echo '</pre>';
-        //die;
         $answers = array();
         foreach ($questions as $question){
             $a = Answers::find()->where(['questions_id' => $question['id']])->asArray()->all();
             $answers[]=$a;
         }
+        $useranswers = UserAnswers::find()->asArray()->all();
         if (YII::$app->request->isAjax){
             $que2 = Answers::find()->where(['id' => $_POST['ans']])->asArray()->one();
+            $save = new UserAnswers;
+            $save->user_id = $_POST['usr'];
+            $save->questions_id = $_POST['que'];
+            $save->answer_id = $_POST['ans'];
+            $save->save(false);
             if ($que2['Correct'] == 1){
                 \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
                 $c = true;
                 return [$c,$_POST['ans']];
             }else{
@@ -95,7 +116,7 @@ class SiteController extends Controller
             }
             };
 
-        return $this->render('test', ['questions' => $questions, 'answers' => $answers]);
+        return $this->render('test', ['questions' => $questions, 'answers' => $answers, 'useranswers' => $useranswers]);
     }
 
     /**

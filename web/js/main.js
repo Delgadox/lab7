@@ -1,7 +1,7 @@
-function CheckIfRight(a,b) {
+function CheckIfRight(a,b,c) {
     $.ajax({
         url: 'http://lab7/web/site/test',
-        data:{ans: a, que: b},
+        data:{ans: a, que: b, usr: c},
         type: 'POST',
         success: function(data){
                     if (data[0]==true){

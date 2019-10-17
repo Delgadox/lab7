@@ -28,25 +28,34 @@ $this->title = 'Test';
 
     <div class="body-content">
 <?php
-    if ($questions == null) {
-        echo 'У теста нету вопросов!';
-    }elseif ($_GET['Question'] <= (count($questions)-1)){
-        echo '<div class="test"><div id="question" class="question">' .$questions[$_GET['Question']]['Question']. '</div>';
-        $a = $answers[$_GET['Question']];
-        echo '<pre>';
-        print_r($questions);
-        echo '</pre>';
-        foreach ($a as $answer) {
+    if ($_SESSION['user']){
+        $ansid = $useranswers[$_SESSION['user']][$questions[$_GET['Question']]['id']];
+        if ($ansid == null) {
+            if ($questions == null) {
+                echo 'У теста нету вопросов!';
+            } elseif ($_GET['Question'] <= (count($questions) - 1)) {
+                echo '<div class="test"><div id="question" class="question">' . $questions[$_GET['Question']]['Question'] . '</div>';
+                $a = $answers[$_GET['Question']];
 
-            echo '<div id="Test' . $answer['id'] . '" onclick="CheckIfRight('. $answer['id'] .','.$_GET['Question'].')" class="TestUnClick">' . $answer['Answer'] . '</div>';
-        }
-        echo '<br><a href="index">Go back</a></div>';
-        if (($_GET['Question']) < (count($questions)-1)) {
-            echo '<a href="' . Url::to(['site/test', 'test' => $_GET['test'], 'Question' => $_GET['Question'] + 1]) . '">Next</a>';
+                foreach ($a as $answer) {
+
+                    echo '<div id="Test' . $answer['id'] . '" onclick="CheckIfRight(' . $answer['id'] . ',' . $questions[$_GET['Question']]['id'] . ',' . $_SESSION['user'] . ')" class="TestUnClick">' . $answer['Answer'] . '</div>';
+                }
+                echo '<br><a href="index">Go back</a></div>';
+                if (($_GET['Question']) < (count($questions) - 1)) {
+                    echo '<a href="' . Url::to(['site/test', 'test' => $_GET['test'], 'Question' => $_GET['Question'] + 1]) . '">Next</a>';
+                }
+            } else {
+                echo 'Такого вопроса нет!';
+            }
+        }else{
+            echo '<div class="test"><div id="question" class="question">' . $questions[$_GET['Question']]['Question'] . '</div>;
+                  <div>Вы уже ответели на этот вопрос. Ответ:'.$answers[$ansid]['Answer'].'</div>';
         }
     }else{
-        echo'Такого вопроса нет!';
-    }?>
+        echo '<a href="'.Url::to(['users', 'test' => $_GET['test'], 'Question' => $_GET['Question']]).'" >Необходимо выбрать пользователя!</a>';
+    }
+    ?>
 
     </div>
 </div>
