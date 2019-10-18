@@ -40,7 +40,7 @@ class Test extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id' => 'LMAO',
             'Name' => 'Name',
             'Description' => 'Description',
         ];

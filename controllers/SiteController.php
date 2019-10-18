@@ -15,7 +15,7 @@ use app\models\Answers;
 use app\models\ContactForm;
 use app\models\Users;
 use app\models\UserAnswers;
-
+use yii\helpers\ArrayHelper;
 class SiteController extends Controller
 {
     /**
@@ -73,6 +73,28 @@ class SiteController extends Controller
         return $this->render('index', ['a' => $a]);
     }
 
+    public function actionCreate()
+    {
+        if(Yii::$app->request->post())
+        {
+            return $this->redirect(['site/createfull','test'=>$_POST['test']]);
+        }
+        $test= new Test;
+        $tests= Test::find()->asArray()->all();
+        return $this->render('CreateQuest',['tests'=>ArrayHelper::map($tests, 'id', 'Name'),'test'=>$test]);
+    }
+
+    public function actionCreatefull()
+    {
+        if(Yii::$app->request->post())
+        {
+            
+        }
+        $que= new Questions;
+        $ques= Questions::find()->asArray()->all();
+        return $this->render('createFull',['test'=>$_POST['test'],'que'=>$que,'ques'=>ArrayHelper::map($ques, 'id', 'Question')]);
+    }
+
     public function actionUsers()
     {
 //        $model = new Users;
@@ -96,7 +118,7 @@ class SiteController extends Controller
             $a = Answers::find()->where(['questions_id' => $question['id']])->asArray()->all();
             $answers[]=$a;
         }
-        $useranswers = UserAnswers::find()->asArray()->all();
+        $flag = UserAnswers::find()->where(['user_id' => $_SESSION['user'], 'questions_id' => [$questions[ $_GET['Question']]['id'] ]])->asArray()->one();
         if (YII::$app->request->isAjax){
             $que2 = Answers::find()->where(['id' => $_POST['ans']])->asArray()->one();
             $save = new UserAnswers;
@@ -116,7 +138,32 @@ class SiteController extends Controller
             }
             };
 
-        return $this->render('test', ['questions' => $questions, 'answers' => $answers, 'useranswers' => $useranswers]);
+        return $this->render('test', ['questions' => $questions, 'answers' => $answers, 'flag' => $flag]);
+    }
+
+    public function actionFinnish()
+    {
+        if (empty($_SESSION['user'])) {
+            return Yii::$app->response->redirect([ Url::to(['index']) ]);
+        }
+        $RightAnswers = 0;
+        $UserAnswers = UserAnswers::find()->where(['user_id' => $_SESSION['user']])->asArray()->all();
+//        print_r ($UserAnswers);
+        foreach ($UserAnswers as $answer) {
+//            print_r ($answer);
+//            print_r ($answer['question_id']);
+            $questions = Questions::find()->where(['id' => $answer['questions_id']])->asArray()->one();
+            if ($questions['test_id'] == $_GET['test']) {
+                $answers = Answers::find()->where(['id' => $answer['answer_id']])->asArray()->one();
+                if ($answers['Correct'] == 1) {
+                    $RightAnswers ++;
+//                    echo $RightAnswers;
+                }
+            }
+        }
+//        echo $RightAnswers;
+        $user = Users::find()->where(['id' => $_SESSION['user']])->asarray()->one();
+        return $this->render('finnish', ['RightAnswers' => $RightAnswers, 'user' => $user]);
     }
 
     /**
